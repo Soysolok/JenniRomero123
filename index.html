@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TuCuentaOnly — Review @jenniromero123</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #d7b3cd;
+  --peach: #ffb997;
+  --purple: #89547a;
+  --purple-dark: #6b3d5e;
+  --purple-light: #f5eaf2;
+  --bg: #fdf6fa;
+  --white: #ffffff;
+  --text: #2d1f2a;
+  --text-light: #8a6a80;
+  --border: #eddde8;
+  --gradient: linear-gradient(135deg, #89547a 0%, #d7b3cd 55%, #ffb997 100%);
+  --shadow: 0 4px 20px rgba(137,84,122,0.10);
+  --radius: 16px;
+  --radius-sm: 10px;
+  color-scheme: only light;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+#progress-bar{position:fixed;top:0;left:0;height:4px;background:var(--gradient);z-index:9999;width:0%;transition:width .1s linear;border-radius:0 2px 2px 0;}
+
+#password-screen{position:fixed;inset:0;background:linear-gradient(145deg,#1e0f1a 0%,#89547a 60%,#d7b3cd 100%);display:flex;align-items:center;justify-content:center;z-index:10000;padding:20px;}
+.pwd-box{background:rgba(255,255,255,0.10);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.18);border-radius:24px;padding:48px 40px;text-align:center;max-width:420px;width:100%;}
+.pwd-logo{font-size:11px;font-weight:800;letter-spacing:3.5px;color:rgba(255,255,255,0.95);text-transform:uppercase;margin-bottom:4px;}
+.pwd-sub{font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:1px;margin-bottom:36px;}
+.pwd-emoji{font-size:40px;margin-bottom:12px;}
+.pwd-title{font-size:20px;font-weight:800;color:white;margin-bottom:8px;}
+.pwd-desc{font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:28px;line-height:1.5;}
+.pwd-input{width:100%;padding:15px 20px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.12);color:white;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:600;text-align:center;letter-spacing:3px;outline:none;margin-bottom:14px;}
+.pwd-input::placeholder{color:rgba(255,255,255,0.4);letter-spacing:1px;font-size:13px;}
+.pwd-input:focus{border-color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.18);}
+.pwd-btn{width:100%;padding:15px;border-radius:12px;border:none;background:white;color:var(--purple);font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;letter-spacing:1.5px;cursor:pointer;text-transform:uppercase;}
+.pwd-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.3);}
+.pwd-error{color:#ffb997;font-size:12px;font-weight:600;margin-top:12px;display:none;}
+
+#main-content{display:none;}
+.site-header{background:white;border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:4px;z-index:200;box-shadow:0 2px 16px rgba(137,84,122,0.07);}
+.header-logo{display:flex;align-items:center;gap:12px;}
+.logo-mark{width:38px;height:38px;background:var(--gradient);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-name{font-size:11px;font-weight:800;letter-spacing:2.5px;color:var(--purple);text-transform:uppercase;}
+.logo-handle{font-size:10px;color:var(--text-light);font-weight:500;margin-top:1px;}
+.header-right{display:flex;align-items:center;gap:12px;}
+.header-badge{background:var(--purple-light);color:var(--purple);font-size:11px;font-weight:700;padding:6px 14px;border-radius:20px;}
+.lang-toggle{display:flex;background:var(--purple-light);border-radius:30px;padding:4px;gap:2px;}
+.lang-btn{padding:5px 14px;border-radius:20px;border:none;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;cursor:pointer;background:transparent;color:var(--text-light);}
+.lang-btn.active{background:var(--purple);color:white;}
+
+.layout{display:flex;}
+.sidebar{width:255px;background:white;border-right:1px solid var(--border);padding:20px 0;position:sticky;top:61px;height:calc(100vh - 61px);overflow-y:auto;flex-shrink:0;}
+.sidebar-label{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--text-light);text-transform:uppercase;padding:0 18px 10px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 18px;cursor:pointer;border-left:3px solid transparent;color:var(--text);font-size:12px;font-weight:600;}
+.nav-item:hover{background:var(--purple-light);border-left-color:var(--pink);}
+.nav-item.active{background:var(--purple-light);border-left-color:var(--purple);color:var(--purple);}
+.nav-icon{font-size:15px;flex-shrink:0;}
+.nav-num{font-size:9px;color:var(--text-light);margin-left:auto;font-weight:700;}
+
+.main{flex:1;padding:36px 44px;min-width:0;}
+.section{margin-bottom:72px;scroll-margin-top:80px;}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:28px;}
+.section-icon-wrap{width:50px;height:50px;background:var(--gradient);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.sec-num{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--text-light);text-transform:uppercase;}
+.sec-title{font-size:22px;font-weight:900;color:var(--purple-dark);line-height:1.2;}
+.sec-divider{height:3px;background:var(--gradient);border-radius:2px;margin-bottom:28px;}
+
+.card{background:white;border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow);border:1px solid var(--border);}
+.card-title{font-size:11px;font-weight:800;color:var(--purple);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.card p{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:10px;}
+.card p:last-child{margin-bottom:0;}
+
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.badge-green{background:#d4f4e0;color:#1a7a45;}
+.badge-red{background:#fde8e8;color:#c0392b;}
+.badge-purple{background:var(--purple-light);color:var(--purple);}
+.badge-peach{background:#fff0e8;color:#c85a2a;}
+.badge-gray{background:#f0ede8;color:#6b5a50;}
+
+.info-box{background:var(--purple-light);border-left:4px solid var(--purple);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:14px 18px;margin:12px 0;font-size:13px;color:var(--purple-dark);line-height:1.6;}
+.warning-box{background:#fff8e8;border-left:4px solid #f0a500;border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:14px 18px;margin:12px 0;font-size:13px;color:#7a5200;line-height:1.6;}
+.danger-box{background:#fdeeee;border-left:4px solid #c0392b;border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:14px 18px;margin:12px 0;font-size:13px;color:#7a1f1f;line-height:1.6;}
+
+.data-table{width:100%;border-collapse:collapse;font-size:13px;}
+.data-table th{background:var(--purple);color:white;padding:11px 16px;text-align:left;font-size:10px;letter-spacing:.5px;font-weight:700;}
+.data-table td{padding:11px 16px;border-bottom:1px solid var(--border);font-weight:500;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:nth-child(even) td{background:#fdf6fa;}
+
+.problem-list{list-style:none;}
+.problem-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;}
+.problem-item:last-child{border-bottom:none;}
+.problem-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+
+.funnel{display:flex;flex-direction:column;align-items:center;gap:3px;margin:20px 0;}
+.funnel-step{color:white;text-align:center;padding:13px 24px;font-weight:700;font-size:13px;line-height:1.3;}
+
+.script-card{background:white;border-radius:var(--radius-sm);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;box-shadow:0 2px 8px rgba(137,84,122,0.06);}
+.script-header{background:var(--purple-light);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.script-label{font-size:11px;font-weight:800;color:var(--purple);letter-spacing:1px;text-transform:uppercase;}
+.script-tag{font-size:10px;background:var(--purple);color:white;padding:3px 10px;border-radius:20px;font-weight:700;}
+.script-body{padding:16px 16px 12px;}
+.lang-block{margin-bottom:12px;}
+.lang-block:last-child{margin-bottom:0;}
+.lang-flag{font-size:11px;font-weight:700;color:var(--text-light);margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.script-text{font-size:14px;color:var(--text);line-height:1.65;font-style:italic;background:var(--bg);padding:10px 14px;border-radius:8px;margin-bottom:6px;}
+.copy-btn{background:var(--purple-light);color:var(--purple);border:none;padding:5px 14px;border-radius:20px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;}
+.copy-btn:hover{background:var(--purple);color:white;}
+.copy-btn.copied{background:#d4f4e0;color:#1a7a45;}
+body.lang-en .lang-es{display:none;}
+body.lang-es .lang-en{display:none;}
+
+.block-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.block-tab{padding:9px 20px;border-radius:30px;border:2px solid var(--border);background:white;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;cursor:pointer;color:var(--text-light);}
+.block-tab.active{background:var(--purple);border-color:var(--purple);color:white;}
+.block-content{display:none;}
+.block-content.active{display:block;}
+
+.price-ladder{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap;margin:20px 0;justify-content:center;}
+.price-step{background:white;border:2px solid var(--pink);border-radius:10px;padding:12px 8px;text-align:center;flex:1 1 90px;min-width:80px;max-width:110px;min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.price-step.current{border-color:var(--purple);background:var(--purple);}
+.price-num{font-size:17px;font-weight:900;color:var(--purple);display:block;line-height:1.2;}
+.price-step.current .price-num{color:white;}
+.price-lbl{font-size:9px;font-weight:700;color:var(--text-light);letter-spacing:.5px;text-transform:uppercase;margin-top:4px;line-height:1.3;}
+.price-step.current .price-lbl{color:rgba(255,255,255,0.8);}
+.price-arrow{color:var(--pink);font-size:18px;font-weight:700;display:flex;align-items:center;}
+
+.schedule-table{width:100%;border-collapse:collapse;font-size:13px;}
+.schedule-table th{background:var(--purple);color:white;padding:11px 16px;text-align:left;font-size:10px;letter-spacing:.5px;font-weight:700;}
+.schedule-table td{padding:11px 16px;border-bottom:1px solid var(--border);vertical-align:top;}
+.schedule-table tr:last-child td{border-bottom:none;}
+.time-badge{background:var(--purple-light);color:var(--purple);padding:4px 10px;border-radius:20px;font-weight:700;font-size:11px;white-space:nowrap;display:inline-block;}
+
+.lists-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.list-card{background:white;border-radius:var(--radius-sm);padding:16px;border:1px solid var(--border);border-left:4px solid var(--purple);}
+.list-name{font-size:14px;font-weight:800;color:var(--purple-dark);margin-bottom:6px;}
+.list-desc{font-size:12px;color:var(--text-light);line-height:1.5;}
+
+.rule-section{margin-bottom:16px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);}
+.rule-cat{background:var(--purple);color:white;padding:10px 16px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;}
+.rule-list{list-style:none;background:white;}
+.rule-item{padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:10px;align-items:flex-start;}
+.rule-item:last-child{border-bottom:none;}
+.rule-dot{color:var(--purple);font-weight:900;flex-shrink:0;}
+
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0;}
+.proj-card{background:white;border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border);text-align:center;}
+.proj-card.highlight{background:var(--gradient);}
+.proj-month{font-size:10px;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.proj-card.highlight .proj-month{color:rgba(255,255,255,0.75);}
+.proj-amount{font-size:26px;font-weight:900;color:var(--purple);}
+.proj-card.highlight .proj-amount{color:white;}
+.proj-range{font-size:11px;color:var(--text-light);margin-top:4px;}
+.proj-card.highlight .proj-range{color:rgba(255,255,255,0.7);}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:16px 0;}
+.kpi-card{background:white;border-radius:var(--radius-sm);padding:16px;border:1px solid var(--border);border-top:3px solid var(--purple);}
+.kpi-label{font-size:10px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.kpi-value{font-size:18px;font-weight:900;color:var(--purple-dark);}
+.kpi-goal{font-size:11px;color:var(--text-light);margin-top:4px;}
+
+.decision-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0;}
+.decision-card{border-radius:var(--radius-sm);padding:20px;border:2px solid var(--border);}
+.decision-card.optA{border-color:#1a7a45;background:#f3fbf6;}
+.decision-card.optB{border-color:#c0392b;background:#fdf3f2;}
+.decision-title{font-size:14px;font-weight:900;margin-bottom:8px;}
+.decision-card.optA .decision-title{color:#1a7a45;}
+.decision-card.optB .decision-title{color:#c0392b;}
+
+.timeline{display:flex;flex-direction:column;gap:10px;margin:16px 0;}
+.tl-step{display:flex;gap:14px;align-items:flex-start;background:white;border-radius:var(--radius-sm);padding:14px 18px;border:1px solid var(--border);}
+.tl-week{background:var(--purple);color:white;font-size:11px;font-weight:800;padding:6px 12px;border-radius:20px;flex-shrink:0;white-space:nowrap;}
+
+.roadmap-cta{background:var(--gradient);border-radius:var(--radius);padding:32px;text-align:center;color:white;margin-top:8px;}
+.roadmap-cta h3{font-size:20px;font-weight:900;margin-bottom:8px;}
+.roadmap-cta p{font-size:13px;opacity:.9;margin-bottom:18px;}
+.roadmap-cta a{display:inline-block;background:white;color:var(--purple);font-weight:800;font-size:13px;padding:12px 28px;border-radius:99px;letter-spacing:.3px;}
+
+.footer{background:var(--purple-dark);color:rgba(255,255,255,0.65);text-align:center;padding:32px;font-size:11px;letter-spacing:.5px;}
+.footer strong{color:white;}
+.footer a{color:var(--pink);font-weight:600;}
+
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--border);z-index:200;padding:6px 0 8px;}
+.mobile-nav-inner{display:flex;overflow-x:auto;padding:0 12px;gap:4px;}
+.mnav-item{display:flex;flex-direction:column;align-items:center;padding:6px 12px;border-radius:10px;cursor:pointer;white-space:nowrap;flex-shrink:0;color:var(--text-light);}
+.mnav-item.active{background:var(--purple-light);color:var(--purple);}
+.mnav-icon{font-size:17px;}
+.mnav-label{font-size:8px;font-weight:700;margin-top:2px;letter-spacing:.3px;text-transform:uppercase;}
+
+@media(max-width:900px){
+  .main{padding:24px 20px 110px;}
+  .sidebar{display:none;}
+  .mobile-nav{display:block;}
+  .proj-grid{grid-template-columns:1fr;}
+  .decision-grid{grid-template-columns:1fr;}
+  .header-badge{display:none;}
+  .lang-toggle{display:none;}
+}
+@media(max-width:480px){
+  .pwd-box{padding:32px 22px;}
+  .block-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;}
+  .block-tab{flex-shrink:0;}
+  .lists-grid{grid-template-columns:1fr 1fr;}
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+  .price-step{flex:1 1 68px;min-width:60px;padding:8px 4px;}
+  .price-num{font-size:14px;}
+  .price-lbl{font-size:7.5px;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div id="password-screen">
+  <div class="pwd-box">
+    <div class="pwd-logo">TuCuentaOnly</div>
+    <div class="pwd-sub">tucuentaof.com · @tucuentaonlyf</div>
+    <div class="pwd-emoji">💖</div>
+    <div class="pwd-title">Review Confidencial</div>
+    <div class="pwd-desc">Ingresá la contraseña para acceder a tu estrategia personalizada</div>
+    <input type="password" class="pwd-input" id="pwd-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPwd()">
+    <button class="pwd-btn" onclick="checkPwd()">Acceder 💖</button>
+    <div class="pwd-error" id="pwd-error">❌ Contraseña incorrecta. Intentá de nuevo.</div>
+  </div>
+</div>
+
+<div id="main-content">
+
+<header class="site-header">
+  <div class="header-logo">
+    <div class="logo-mark">💖</div>
+    <div>
+      <div class="logo-name">TuCuentaOnly</div>
+      <div class="logo-handle">@jenniromero123 · Review Julio 2026</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="lb-both" onclick="setLang('both')">🌐 Ambos</button>
+      <button class="lang-btn" id="lb-en" onclick="setLang('en')">🇬🇧 EN</button>
+      <button class="lang-btn" id="lb-es" onclick="setLang('es')">🇦🇷 ES</button>
+    </div>
+    <div class="header-badge">@jenniromero123</div>
+  </div>
+</header>
+
+<div class="layout">
+
+<nav class="sidebar">
+  <div class="sidebar-label">Secciones</div>
+  <a href="#diagnostico" class="nav-item active" onclick="setActive(this)"><span class="nav-icon">🔍</span><span>Diagnóstico</span><span class="nav-num">01</span></a>
+  <a href="#mensajeria" class="nav-item" onclick="setActive(this)"><span class="nav-icon">📨</span><span>Mensajería</span><span class="nav-num">02</span></a>
+  <a href="#horario" class="nav-item" onclick="setActive(this)"><span class="nav-icon">🕐</span><span>Horario Diario</span><span class="nav-num">03</span></a>
+  <a href="#listas" class="nav-item" onclick="setActive(this)"><span class="nav-icon">📋</span><span>Listas</span><span class="nav-num">04</span></a>
+  <a href="#drip" class="nav-item" onclick="setActive(this)"><span class="nav-icon">💧</span><span>Drip Method</span><span class="nav-num">05</span></a>
+  <a href="#vip" class="nav-item" onclick="setActive(this)"><span class="nav-icon">👑</span><span>VIP + Funnel</span><span class="nav-num">06</span></a>
+  <a href="#reddit" class="nav-item" onclick="setActive(this)"><span class="nav-icon">🔺</span><span>Reddit</span><span class="nav-num">07</span></a>
+  <a href="#reviews" class="nav-item" onclick="setActive(this)"><span class="nav-icon">⭐</span><span>Prueba Social</span><span class="nav-num">08</span></a>
+  <a href="#reglas" class="nav-item" onclick="setActive(this)"><span class="nav-icon">📏</span><span>Reglas</span><span class="nav-num">09</span></a>
+  <a href="#metricas" class="nav-item" onclick="setActive(this)"><span class="nav-icon">📊</span><span>Métricas</span><span class="nav-num">10</span></a>
+</nav>
+
+<main class="main">
+
+<section class="section" id="diagnostico">
+  <div class="section-header">
+    <div class="section-icon-wrap">🔍</div>
+    <div><div class="sec-num">Sección 01</div><div class="sec-title">Diagnóstico</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="card">
+    <div class="card-title">📊 Tus Métricas — Últimos 30 días</div>
+    <table class="data-table">
+      <tr><th>Métrica</th><th>Valor</th><th>Estado</th></tr>
+      <tr><td>Ganancias netas (30 días)</td><td><strong>$1,178.82</strong></td><td><span class="badge badge-green">+86.4%</span></td></tr>
+      <tr><td>Ganancias all-time</td><td><strong>$24,628.23</strong></td><td><span class="badge badge-purple">Top 11% creadoras</span></td></tr>
+      <tr><td>Pico histórico mensual</td><td><strong>$3,239.22</strong> (ago 2025)</td><td><span class="badge badge-red">-80% desde el pico</span></td></tr>
+      <tr><td>Visitantes de perfil (30 días)</td><td><strong>9,729</strong></td><td><span class="badge badge-red">-32.1%</span></td></tr>
+      <tr><td>Suscriptores activos</td><td><strong>794</strong> de 7,017 totales</td><td><span class="badge badge-green">+31.9%</span></td></tr>
+      <tr><td>Nuevas suscripciones / renovaciones</td><td><strong>573 / 221</strong></td><td><span class="badge badge-red">-4.8%</span></td></tr>
+      <tr><td>Ingreso por suscripción</td><td><strong>$0.00</strong></td><td><span class="badge badge-red">Cuenta gratis</span></td></tr>
+      <tr><td>Ingreso por propinas</td><td><strong>$749.60</strong></td><td><span class="badge badge-green">+106.8% · 63% del total</span></td></tr>
+      <tr><td>Ingreso por mensajes</td><td><strong>$344.91</strong></td><td><span class="badge badge-peach">+52.3% · 29% del total</span></td></tr>
+      <tr><td>Ingreso por publicaciones</td><td><strong>$44.31</strong></td><td><span class="badge badge-gray">+1.6% · 4% del total</span></td></tr>
+      <tr><td>Ingreso por streaming</td><td><strong>$40.00</strong></td><td><span class="badge badge-peach">+100%</span></td></tr>
+      <tr><td>Racha de actividad</td><td><strong>380 días</strong></td><td><span class="badge badge-green">Constancia operativa sólida</span></td></tr>
+      <tr><td>Países principales</td><td><strong>USA · España · México</strong></td><td><span class="badge badge-purple">Audiencia diversificada</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔻 Análisis de tu Funnel</div>
+    <p>Tu tráfico entra bien — 9,729 visitas y 794 suscriptores activos creciendo +31.9%. El problema no es la entrada, es todo lo que pasa después: el embudo se te rompe en la conversión y se rompe otra vez en el tramo final, donde tu VIP debería cerrar el ciclo y hoy está vacía.</p>
+    <div class="funnel" style="margin-top:20px;">
+      <div class="funnel-step" style="width:100%;background:#89547a;border-radius:10px 10px 0 0;">🌐 Tráfico — 9,729 visitas/mes (-32.1%)</div>
+      <div class="funnel-step" style="width:86%;background:#9e6490;">📥 Suscriptores — 794 activos (gratis)</div>
+      <div class="funnel-step" style="width:70%;background:#d7b3cd;color:#4a2040;">📨 Masivos — apertura real 20-25%, sin bloques ni escalera</div>
+      <div class="funnel-step" style="width:54%;background:#f0d0e8;color:#4a2040;">💸 PPV Wave — máx. 2/día, guion reciclado en 8+ envíos</div>
+      <div class="funnel-step" style="width:38%;background:#ffb997;border-radius:0 0 10px 10px;color:#4a2040;">👑 VIP — $0 real, última publicación 14 de marzo ❌</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚨 Lo que tenés que resolver</div>
+    <ul class="problem-list">
+      <li class="problem-item"><span class="problem-icon">❌</span><span><strong>Mandás sin bloques ni escalera de precio:</strong> ~15-20 contactos/día, por debajo del estándar, sin estructura Wake Up/Context/PPV Wave/Goodnight. Precios sueltos ($12, $15, $25, $49.90) sin lógica de Drip Method.</span></li>
+      <li class="problem-item"><span class="problem-icon">❌</span><span><strong>Repetís el mismo guion de PPV:</strong> el mismo texto aparece en al menos 8 envíos distintos de $15 en 3 semanas, sin variar gancho ni contexto.</span></li>
+      <li class="problem-item"><span class="problem-icon">❌</span><span><strong>Cobrás por contenido muerto en tu VIP:</strong> @jenni.vip, $15/mes, última publicación 14 de marzo — más de 4 meses — y la seguís promocionando activamente en bio, pin y masivos.</span></li>
+      <li class="problem-item"><span class="problem-icon">❌</span><span><strong>Feed inconsistente:</strong> tu última publicación fue el 9 de julio (11 días de silencio a la fecha de este review), con ráfagas cortas previas (24-25 jun, 3-4 abr) sin continuidad.</span></li>
+      <li class="problem-item"><span class="problem-icon">❌</span><span><strong>Tenés listas armadas pero no las usás:</strong> ya hiciste la segmentación manual (Hacen VC, Enmudecido, Compradores) pero tu masivo manda el mismo mensaje a los 6,371 activos sin filtrar por lista.</span></li>
+      <li class="problem-item"><span class="problem-icon">❌</span><span><strong>Reddit inactivo:</strong> perdiste 3 cuentas anteriores. Todavía no aplicaste una auditoría antes de reintentar.</span></li>
+      <li class="problem-item"><span class="problem-icon">⚠️</span><span><strong>No tenés sistema de prueba social:</strong> no les pedís reviews a los fans que ya compraron, y estás perdiendo un refuerzo de confianza gratuito.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="mensajeria">
+  <div class="section-header">
+    <div class="section-icon-wrap">📨</div>
+    <div><div class="sec-num">Sección 02</div><div class="sec-title">Mensajería — Sistema de 4 Bloques</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="card">
+    <div class="card-title">🕐 Horarios de Envío</div>
+    <table class="schedule-table">
+      <tr><th>Bloque</th><th>Hora ARG</th><th>Función</th></tr>
+      <tr><td>Wake Up</td><td><span class="time-badge">9:00am</span></td><td>Texto sin venta, arrancás el día en la cabeza del fan</td></tr>
+      <tr><td>Context</td><td><span class="time-badge">2:00pm — 6:00pm</span></td><td>Charla, foto SFW o poll — calentás sin vender</td></tr>
+      <tr><td>PPV Wave</td><td><span class="time-badge">8:00pm — 11:00pm</span></td><td>Contenido bloqueado, siempre con contexto antes del 🔒</td></tr>
+      <tr><td>Goodnight</td><td><span class="time-badge">12:30am</span></td><td>Cierre suave, última oferta del día</td></tr>
+    </table>
+  </div>
+
+  <div class="warning-box">Tu volumen actual: ~15-20 contactos/día. El objetivo no es meter más de golpe — primero reordenás en estos 4 bloques con el mismo volumen, y recién después escalás.</div>
+
+  <div class="block-tabs">
+    <button class="block-tab active" onclick="showBlock('b1',this)">🌅 Wake Up</button>
+    <button class="block-tab" onclick="showBlock('b2',this)">☀️ Context</button>
+    <button class="block-tab" onclick="showBlock('b3',this)">🌙 PPV Wave</button>
+    <button class="block-tab" onclick="showBlock('b4',this)">🌛 Goodnight</button>
+  </div>
+
+  <div class="block-content active" id="b1">
+    <div class="info-box">Solo texto, sin PPV. El objetivo es que el fan piense en vos apenas se despierta.</div>
+    <div id="b1-scripts"></div>
+  </div>
+  <div class="block-content" id="b2">
+    <div class="info-box">Con foto SFW o poll. Calentás sin vender — es la charla que hace que después abran el PPV Wave.</div>
+    <div id="b2-scripts"></div>
+  </div>
+  <div class="block-content" id="b3">
+    <div class="info-box">Máximo 2 PPV/día, siempre con contexto antes del 🔒. Precio según la escalera del Drip Method (sección 05).</div>
+    <div id="b3-scripts"></div>
+  </div>
+  <div class="block-content" id="b4">
+    <div class="info-box">Cierre del día, texto suave. Podés incluir una oferta de $9 los días con contenido nuevo.</div>
+    <div id="b4-scripts"></div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="card-title">🔀 Segmentación por Lista</div>
+    <p>Hoy le mandás el mismo mensaje a los 6,371 fans activos. Con las listas que ya armaste, podés segmentar cada bloque:</p>
+    <ul class="problem-list">
+      <li class="problem-item"><span class="problem-icon">🎯</span><span><strong>Hacen VC (194):</strong> les mandás oferta directa de videollamada en el bloque PPV Wave, no el gancho genérico.</span></li>
+      <li class="problem-item"><span class="problem-icon">🎯</span><span><strong>Compradores (395):</strong> son tus candidatos a escalar en el Drip Method — les mostrás precios más altos que al resto.</span></li>
+      <li class="problem-item"><span class="problem-icon">🎯</span><span><strong>Enmudecido (146):</strong> sacalos del envío masivo normal — trabajalos con la campaña de reactivación puntual del roadmap.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🤝 Promo Cruzada con Otras Creadoras</div>
+    <p>Es trueque sin costo directo (no dinero, intercambio de tráfico) y te aporta descubrimiento real. Se mantiene como ya lo manejás — el volumen y la frecuencia quedan a tu criterio.</p>
+  </div>
+</section>
+
+<section class="section" id="horario">
+  <div class="section-header">
+    <div class="section-icon-wrap">🕐</div>
+    <div><div class="sec-num">Sección 03</div><div class="sec-title">Horario Diario Completo</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="card">
+    <div class="card-title">🌅 Mañana</div>
+    <table class="schedule-table">
+      <tr><th>Hora ARG</th><th>Acción</th></tr>
+      <tr><td><span class="time-badge">9:00am</span></td><td><strong>Wake Up masivo</strong> — Bloque 1, solo texto.</td></tr>
+      <tr><td><span class="time-badge">9:30am</span></td><td><strong>1ra publicación libre</strong> del feed — foto suelta o teaser corto.</td></tr>
+      <tr><td><span class="time-badge">10:00am</span></td><td>Revisás DMs nocturnos. Respondés y empujás upsells a quienes compraron de madrugada.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌞 Tarde</div>
+    <table class="schedule-table">
+      <tr><th>Hora ARG</th><th>Acción</th></tr>
+      <tr><td><span class="time-badge">2:00pm</span></td><td><strong>Context masivo</strong> — Bloque 2, foto SFW o poll de segmentación.</td></tr>
+      <tr><td><span class="time-badge">3:30pm</span></td><td><strong>2da publicación libre</strong> — tipo distinto al de la mañana.</td></tr>
+      <tr><td><span class="time-badge">5:00pm</span></td><td>Revisás DMs, identificás quién abrió el Context y trabajás upsells directos.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌆 Noche Temprana</div>
+    <table class="schedule-table">
+      <tr><th>Hora ARG</th><th>Acción</th></tr>
+      <tr><td><span class="time-badge">6:30pm</span></td><td><strong>Publicación de campaña</strong> (tipo ruleta/spin the wheel) — ya te funciona bien, mantenés esta cadencia.</td></tr>
+      <tr><td><span class="time-badge">7:30pm</span></td><td>Promo cruzada con otras creadoras, según lo que tengas planificado ese día.</td></tr>
+      <tr><td><span class="time-badge">8:00pm</span></td><td><strong>PPV Wave 1</strong> — Bloque 3, escalón de precio según lista/fan.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌙 Noche</div>
+    <table class="schedule-table">
+      <tr><th>Hora ARG</th><th>Acción</th></tr>
+      <tr><td><span class="time-badge">9:30pm</span></td><td>Chateo activo — priorizás a quien abrió el PPV Wave y no compró.</td></tr>
+      <tr><td><span class="time-badge">10:30pm</span></td><td><strong>Publicación paga</strong> del feed — cierra el ciclo de 4 posts (2 libres + 1 campaña + 1 paga).</td></tr>
+      <tr><td><span class="time-badge">11:00pm</span></td><td><strong>PPV Wave 2</strong> — Bloque 3, si tenés contenido nuevo esa noche.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌛 Madrugada</div>
+    <table class="schedule-table">
+      <tr><th>Hora ARG</th><th>Acción</th></tr>
+      <tr><td><span class="time-badge">12:30am</span></td><td><strong>Goodnight masivo</strong> — Bloque 4, cierre suave.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 Ciclo de Feed (todos los días, sin excepción)</div>
+    <p>Dado el volumen de 6,371 fans activos que tenés, publicar todos los días es obligatorio — hoy tenés huecos de hasta 11 días entre publicaciones.</p>
+    <table class="data-table">
+      <tr><th>Ciclo cada 4 posts</th><th>Tipo</th></tr>
+      <tr><td>Post 1 y 2</td><td>Publicaciones libres individuales — foto suelta, poll o detrás de escena</td></tr>
+      <tr><td>Post 3</td><td>Publicación de campaña (formato ruleta, ya validado)</td></tr>
+      <tr><td>Post 4</td><td>Publicación paga (PPV en el feed, precio bajo-medio)</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="listas">
+  <div class="section-header">
+    <div class="section-icon-wrap">📋</div>
+    <div><div class="sec-num">Sección 04</div><div class="sec-title">Listas</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="warning-box">Ya tenés listas armadas manualmente — el problema es que tu masivo no las está usando. Estas son las prioritarias para conectar con la mensajería de la sección 02.</div>
+
+  <div class="card">
+    <div class="card-title">📋 Tus Listas a Activar</div>
+    <div class="lists-grid">
+      <div class="list-card" style="border-left-color:#89547a;"><div class="list-name">🔇 Enmudecido (146)</div><div class="list-desc">Sale del envío masivo normal. Campaña puntual de reactivación en el roadmap.</div></div>
+      <div class="list-card" style="border-left-color:#c0392b;"><div class="list-name">📞 Hacen VC (194)</div><div class="list-desc">Les mandás oferta directa de videollamada en el bloque PPV Wave, no el gancho genérico.</div></div>
+      <div class="list-card" style="border-left-color:#d4a800;"><div class="list-name">💬 Hacen Sexting (43)</div><div class="list-desc">Segmento para ofertas de sexting por tiempo, en vez del PPV de video estándar.</div></div>
+      <div class="list-card" style="border-left-color:#1a7a45;"><div class="list-name">💰 Compradores (395)</div><div class="list-desc">Tu base del Drip Method — pueden ver precios de $25 directo en masivo, sin pasar por $9-$15.</div></div>
+      <div class="list-card" style="border-left-color:#2980b9;"><div class="list-name">👯 Amigos (2)</div><div class="list-desc">Trato diferenciado — no van en tu flujo de venta estándar.</div></div>
+      <div class="list-card" style="border-left-color:#8e44ad;"><div class="list-name">🎥 Live Privados (47)</div><div class="list-desc">Tu público objetivo para promoción de transmisiones privadas — hoy te generan bajo alcance ($40 en 30 días, 1h38m transmitidas).</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔄 Cómo las usás en la práctica</div>
+    <ul class="problem-list">
+      <li class="problem-item"><span class="problem-icon">✅</span><span>Cada vez que un fan compra, lo movés a la lista de Drip correspondiente en ese momento.</span></li>
+      <li class="problem-item"><span class="problem-icon">✅</span><span>El PPV Wave lo segmentás: $25+ solo a "Compradores", $9-15 al resto de activos.</span></li>
+      <li class="problem-item"><span class="problem-icon">✅</span><span>Revisás semanalmente "Enmudecido" — si la campaña de reactivación no genera apertura, los das de baja de la segmentación activa.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="drip">
+  <div class="section-header">
+    <div class="section-icon-wrap">💧</div>
+    <div><div class="sec-num">Sección 05</div><div class="sec-title">Drip Method — Escalera de Precios</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="card">
+    <div class="card-title">📈 Por qué una escalera</div>
+    <p>Hoy tus precios saltan sin lógica: $12, $15, $25, $49.90 mezclados sin orden ni frecuencia. La escalera hace que cada compra prepare la siguiente — el fan que ya te pagó $9 tiene mucha más resistencia baja para pagarte $15 que uno que nunca te compró nada.</p>
+    <div class="price-ladder">
+      <div class="price-step"><span class="price-num">$0</span><span class="price-lbl">Sub gratis</span></div>
+      <div class="price-arrow">→</div>
+      <div class="price-step current"><span class="price-num">$9</span><span class="price-lbl">1er escalón</span></div>
+      <div class="price-arrow">→</div>
+      <div class="price-step"><span class="price-num">$15</span><span class="price-lbl">2do escalón</span></div>
+      <div class="price-arrow">→</div>
+      <div class="price-step"><span class="price-num">$25</span><span class="price-lbl">x3 veces</span></div>
+      <div class="price-arrow">→</div>
+      <div class="price-step"><span class="price-num">$40</span><span class="price-lbl">Pack/custom</span></div>
+      <div class="price-arrow">→</div>
+      <div class="price-step"><span class="price-num">$60</span><span class="price-lbl">Top ticket</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📨 Drip en Masivos vs. DM</div>
+    <div class="info-box"><strong>Masivos:</strong> solo $9 y $15, van a toda la lista general (menos Compradores, que puede ver $25 directo).</div>
+    <div class="warning-box"><strong>DM directo:</strong> $25 en adelante lo trabajás uno a uno, según en qué escalón está cada fan.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📞 Videollamadas — Ajuste de precio</div>
+    <p>Tu precio actual: $25 / 5 min · $40 / 10 min (~$5/min). Para tu ranking y nicho, el rango de referencia suele ser más alto. Ajuste sugerido para que lo valides:</p>
+    <table class="data-table">
+      <tr><th>Duración</th><th>Precio actual</th><th>Precio sugerido</th></tr>
+      <tr><td>5 min</td><td>$25</td><td>$35-40</td></tr>
+      <tr><td>10 min</td><td>$40</td><td>$60-70</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⭐ Scripts de Escalada en DM</div>
+    <div id="drip-scripts"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏆 Regla de Oro</div>
+    <p><strong>Nunca saltes escalones.</strong> Si un fan nuevo te pide un custom de $60 el primer día:</p>
+    <div id="golden-rule-scripts"></div>
+  </div>
+</section>
+
+<section class="section" id="vip">
+  <div class="section-header">
+    <div class="section-icon-wrap">👑</div>
+    <div><div class="sec-num">Sección 06</div><div class="sec-title">VIP + Funnel</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="danger-box"><strong>@jenni.vip:</strong> 20 publicaciones, $15/mes (o 3 meses $29.25), última publicación el 14 de marzo — más de 4 meses de silencio. La seguís promocionando activamente en bio, pin y masivos como "contenido exclusivo". Riesgo reputacional directo: el fan que paga y ve esa fecha aprende que tu promesa no es confiable.</div>
+
+  <div class="card">
+    <div class="card-title">⚖️ Tu decisión — No hay una tercera opción</div>
+    <p>Seguir como está ya está comprobado que no funciona. Tenés que elegir uno de los dos caminos esta semana:</p>
+    <div class="decision-grid">
+      <div class="decision-card optA">
+        <div class="decision-title">✅ Opción A — Revivirla</div>
+        <p style="font-size:13px;">Subís mínimo 2-3 publicaciones nuevas esta semana. Recién ahí retomás la promoción activa en masivos y bio.</p>
+      </div>
+      <div class="decision-card optB">
+        <div class="decision-title">🛑 Opción B — Darla de baja</div>
+        <p style="font-size:13px;">La sacás de bio, pin y masivos hasta poder sostenerla con contenido real. Cobrar por algo muerto es el mayor riesgo de todo el diagnóstico.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔻 Embudo VIP — 3 Escalones</div>
+    <p>Si la revivís, no la promocionás a toda la lista — solo a quien ya demostró intención de pago.</p>
+    <div class="funnel" style="margin-top:20px;">
+      <div class="funnel-step" style="width:100%;background:#89547a;border-radius:10px 10px 0 0;">1️⃣ Free — posteo diario, genera el hábito de que entren seguido</div>
+      <div class="funnel-step" style="width:75%;background:#d7b3cd;color:#4a2040;">2️⃣ PPV comprado — el fan que te compra $15-25 es candidato calificado</div>
+      <div class="funnel-step" style="width:50%;background:#ffb997;border-radius:0 0 10px 10px;color:#4a2040;">3️⃣ VIP — oferta solo a quien ya te compró, en bloque Goodnight o DM</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💬 Script — Oferta VIP a Fan Calificado</div>
+    <div id="vip-scripts"></div>
+  </div>
+</section>
+
+<section class="section" id="reddit">
+  <div class="section-header">
+    <div class="section-icon-wrap">🔺</div>
+    <div><div class="sec-num">Sección 07</div><div class="sec-title">Reddit — Reconstrucción desde Cero</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="warning-box">Perdiste 3 cuentas anteriores. Antes de repetir el protocolo, tenés que auditar por qué cayeron — si no, es muy probable que pierdas una cuarta.</div>
+
+  <div class="card">
+    <div class="card-title">🔎 Auditoría Previa (antes de crear la cuenta nueva)</div>
+    <ul class="problem-list">
+      <li class="problem-item"><span class="problem-icon">❓</span><span>¿Reusaste el mismo dispositivo entre cuentas baneadas?</span></li>
+      <li class="problem-item"><span class="problem-icon">❓</span><span>¿Repetiste el mismo texto de bio o el mismo link en más de una cuenta?</span></li>
+      <li class="problem-item"><span class="problem-icon">❓</span><span>¿Posteaste contenido promocional antes de terminar el warm-up de karma?</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛠️ Setup de Cuenta Nueva</div>
+    <table class="data-table">
+      <tr><th>Elemento</th><th>Acción</th></tr>
+      <tr><td>Dispositivo</td><td>Limpio, no reusado de cuentas anteriores</td></tr>
+      <tr><td>VPN</td><td>Fija en Nueva York</td></tr>
+      <tr><td>Email</td><td>Nuevo, no vinculado a cuentas previas</td></tr>
+      <tr><td>Teléfono</td><td>Número virtual/de datos no vinculado a cuentas anteriores (no hace falta un celular físico nuevo)</td></tr>
+      <tr><td>Ángulo de posicionamiento</td><td>Vainilla GFE como entrada — sin restricción de qué vendés después en DM/OF</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏳ Timeline de Warm-Up</div>
+    <div class="timeline">
+      <div class="tl-step"><span class="tl-week">Fase 1</span><span>Conseguís un mínimo de 1,200 karma en subs genéricos (memes, hobbies, curiosidades). Comentás y posteás sin ningún link ni mención de OF.</span></div>
+      <div class="tl-step"><span class="tl-week">Fase 2</span><span>Con los 1,200 karma ya alcanzados, empezás a interactuar con contenido NSFW general (comentar, no postear) para seguir construyendo historial en esas comunidades.</span></div>
+      <div class="tl-step"><span class="tl-week">Fase 3</span><span>Dejás descansar la cuenta 20 días — sin actividad promocional — antes de tocar cualquier subreddit objetivo.</span></div>
+      <div class="tl-step"><span class="tl-week">Fase 4</span><span>Primeros posts en los subreddits filtrados (vainilla-friendly, reglas claras), empezando por los de menor exigencia.</span></div>
+    </div>
+    <div class="info-box">Los umbrales de karma y las reglas de cada subreddit cambian con el tiempo y varían mucho de una comunidad a otra — conviene confirmar el mínimo exacto en el sidebar del subreddit objetivo antes de postear, incluso teniendo ya los 1,200 karma.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ Consistencia con las Reglas del Subreddit</div>
+    <p>Podés vender lo que quieras puertas adentro de OF una vez que el fan entra por DM — pero la entrada en Reddit tiene que ser consistente con lo que promete cada subreddit específico. Prometer vainilla GFE en el post y escalar a fetish/BDSM sin aviso en el DM es motivo de reporte y baneo, y es probablemente parte de lo que pasó con las 3 cuentas anteriores.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 Mantenimiento Diario</div>
+    <p>5-10 minutos todos los días: comentás en 3-5 posts SFW mientras dure el warm-up. Una vez habilitada, 1 post por semana en los subreddits objetivo — sin saturar.</p>
+  </div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="section-header">
+    <div class="section-icon-wrap">⭐</div>
+    <div><div class="sec-num">Sección 08</div><div class="sec-title">Prueba Social — Destacada de Reviews</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="info-box">No se la pidas en público — en este nicho la mayoría paga precisamente por el anonimato. Se la pedís en DM privado después de una compra de precio alto (vcall, custom), y la subís tapando el @ o dejando solo iniciales.</div>
+
+  <div class="card">
+    <div class="card-title">🔄 Flujo</div>
+    <ul class="problem-list">
+      <li class="problem-item"><span class="problem-icon">1️⃣</span><span>Después de cada vcall/custom completado, mandás un mensaje de cierre pidiendo feedback corto.</span></li>
+      <li class="problem-item"><span class="problem-icon">2️⃣</span><span>Elegís las mejores respuestas y armás la destacada "Reviews" con capturas del texto, tapando @ o dejando solo iniciales.</span></li>
+      <li class="problem-item"><span class="problem-icon">3️⃣</span><span>Te sirve como refuerzo justo antes de subir precios (vcall) y como prueba social para la VIP cuando la reactives.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💬 Script — Pedido de Review</div>
+    <div id="review-scripts"></div>
+  </div>
+</section>
+
+<section class="section" id="reglas">
+  <div class="section-header">
+    <div class="section-icon-wrap">📏</div>
+    <div><div class="sec-num">Sección 09</div><div class="sec-title">Reglas</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="rule-section">
+    <div class="rule-cat">📨 Mensajería</div>
+    <ul class="rule-list">
+      <li class="rule-item"><span class="rule-dot">▸</span><span>No repitas un mismo guion de PPV más de 2 veces seguidas — rotá mínimo 3 variantes.</span></li>
+      <li class="rule-item"><span class="rule-dot">▸</span><span>Máximo 2 PPV/día en masivo. Los precios altos ($25+) los trabajás en DM uno a uno.</span></li>
+    </ul>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-cat">💰 Precios</div>
+    <ul class="rule-list">
+      <li class="rule-item"><span class="rule-dot">▸</span><span>PPV mínimo en DM: $9. No hay nada por menos en mensajes privados.</span></li>
+      <li class="rule-item"><span class="rule-dot">▸</span><span>Nunca saltes escalones del Drip Method con un fan nuevo.</span></li>
+      <li class="rule-item"><span class="rule-dot">▸</span><span>Videollamada: no bajes de $35/5min una vez que ajustes el precio.</span></li>
+    </ul>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-cat">👑 VIP</div>
+    <ul class="rule-list">
+      <li class="rule-item"><span class="rule-dot">▸</span><span>No la promociones activamente en bio/masivos si no publicaste en las últimas 2 semanas.</span></li>
+      <li class="rule-item"><span class="rule-dot">▸</span><span>Ofrecela solo a fans que ya te compraron un PPV — nunca a toda la lista.</span></li>
+    </ul>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-cat">📸 Feed</div>
+    <ul class="rule-list">
+      <li class="rule-item"><span class="rule-dot">▸</span><span>Publicá todos los días, sin excepción, dado el volumen de fans activos que tenés.</span></li>
+      <li class="rule-item"><span class="rule-dot">▸</span><span>Mantené el ciclo fijo: 2 libres → 1 campaña → 1 paga, y repetí.</span></li>
+    </ul>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-cat">🔺 Reddit</div>
+    <ul class="rule-list">
+      <li class="rule-item"><span class="rule-dot">▸</span><span>No postees contenido promocional antes de completar el warm-up completo (1,200 karma + interacción NSFW + 20 días de descanso).</span></li>
+      <li class="rule-item"><span class="rule-dot">▸</span><span>El ángulo del post siempre tiene que coincidir con las reglas del subreddit específico.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="metricas">
+  <div class="section-header">
+    <div class="section-icon-wrap">📊</div>
+    <div><div class="sec-num">Sección 10</div><div class="sec-title">Métricas y Proyecciones</div></div>
+  </div>
+  <div class="sec-divider"></div>
+
+  <div class="card">
+    <div class="card-title">📌 KPIs Semanales a Trackear</div>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-label">Apertura de masivos</div><div class="kpi-value">20-25%</div><div class="kpi-goal">Mantené el rango sano actual</div></div>
+      <div class="kpi-card"><div class="kpi-label">Conversión PPV Wave</div><div class="kpi-value">Por medir</div><div class="kpi-goal">Objetivo: subir con escalera de precio</div></div>
+      <div class="kpi-card"><div class="kpi-label">Posts/día en feed</div><div class="kpi-value">0-1 irregular</div><div class="kpi-goal">Objetivo: 4/día en ciclo fijo</div></div>
+      <div class="kpi-card"><div class="kpi-label">Ingreso mensual</div><div class="kpi-value">$656</div><div class="kpi-goal">Objetivo mes 1: cortar la caída</div></div>
+      <div class="kpi-card"><div class="kpi-label">VIP — última publi</div><div class="kpi-value">4+ meses</div><div class="kpi-goal">Objetivo: decisión esta semana</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 Tus Proyecciones a 3 Meses</div>
+    <p>Base de referencia: tu pico histórico de $3,239 (agosto 2025) muestra que ya demostraste ese techo con la misma audiencia base que tenés hoy.</p>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-month">Mes 1 — Implementación</div>
+        <div class="proj-amount">$900</div>
+        <div class="proj-range">Rango: $750-$1,100</div>
+      </div>
+      <div class="proj-card highlight">
+        <div class="proj-month">Mes 2 — Sistema calibrado</div>
+        <div class="proj-amount">$1,500</div>
+        <div class="proj-range">Rango: $1,300-$1,800</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-month">Mes 3 — Recuperación</div>
+        <div class="proj-amount">$2,300</div>
+        <div class="proj-range">Rango: $2,000-$2,800</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏆 Benchmarks de Referencia</div>
+    <table class="data-table">
+      <tr><th>Ranking</th><th>Ingreso mensual</th><th>Estado</th></tr>
+      <tr><td>Top 11%</td><td>~$656-$1,178/mes</td><td><span class="badge badge-purple">📍 Estás acá hoy</span></td></tr>
+      <tr><td>Top 5%</td><td>~$2,500/mes</td><td><span class="badge badge-peach">🎯 Objetivo Mes 3</span></td></tr>
+      <tr><td>Tu nivel pico</td><td>~$3,239/mes</td><td><span class="badge badge-green">🎯 Ya lo demostraste — recuperable</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 Tu Revisión Dominical — 5 Números</div>
+    <ul class="problem-list" style="margin-top:4px;">
+      <li class="problem-item"><span class="problem-icon">1️⃣</span><span>Ganancias de la semana vs. semana anterior.</span></li>
+      <li class="problem-item"><span class="problem-icon">2️⃣</span><span>Cuántos masivos por bloque te convirtieron mejor.</span></li>
+      <li class="problem-item"><span class="problem-icon">3️⃣</span><span>Qué fan subió de escalón en el Drip.</span></li>
+      <li class="problem-item"><span class="problem-icon">4️⃣</span><span>Apertura de la campaña de reactivación de "Enmudecido".</span></li>
+      <li class="problem-item"><span class="problem-icon">5️⃣</span><span>Estado de tu decisión VIP (revivir/dar de baja) y su cumplimiento.</span></li>
+    </ul>
+  </div>
+
+  <div class="roadmap-cta">
+    <h3>🗓️ Tu roadmap semana a semana</h3>
+    <p>Plan de ejecución día por día, con checklist tocable y scripts copiables.</p>
+    <a href="https://soysolok.github.io/JenniromeroRoadmap/" target="_blank">Abrir Roadmap →</a>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer class="footer">
+  <strong>TuCuentaOnly</strong> · Review @jenniromero123 · Julio 2026<br>
+  <a href="https://tucuentaof.com">tucuentaof.com</a> · <a href="https://instagram.com/tucuentaonlyf">@tucuentaonlyf</a> · <a href="https://t.me/Tucuentaonly">t.me/Tucuentaonly</a>
+  <br><br>
+  <span style="font-size:10px;">Documento confidencial — uso exclusivo de la creadora. No compartir.</span>
+</footer>
+
+</div>
+
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <a href="#diagnostico" class="mnav-item active" onclick="setActiveMobile(this)"><span class="mnav-icon">🔍</span><span class="mnav-label">Diag.</span></a>
+    <a href="#mensajeria" class="mnav-item" onclick="setActiveMobile(this)"><span class="mnav-icon">📨</span><span class="mnav-label">Msj.</span></a>
+    <a href="#horario" class="mnav-item" onclick="setActiveMobile(this)"><span class="mnav-icon">🕐</span><span class="mnav-label">Horario</span></a>
+    <a href="#listas" class="mnav-item" onclick="setActiveMobile(this)"><span class="mnav-icon">📋</span><span class="mnav-label">Listas</span></a>
+    <a href="#drip" class="mnav-item" onclick="setActiveMobile(this)"><span class="mnav-icon">💧</span><span class="mnav-label">Drip</span></a>
+    <a href="#vip" class="mnav-item" onclick="setActiveMobile(this)"><span class="mnav-icon">👑</span><span class="mnav-label">VIP</span></a>
+    <a href="#reddit" class="mnav-item" onclick="setActiveMobile(this)"><span class="mnav-icon">🔺</span><span class="mnav-label">Reddit</span></a>
+    <a href="#reviews" class="mnav-item" onclick="setActiveMobile(this)"><span class="mnav-icon">⭐</span><span class="mnav-label">Reviews</span></a>
+    <a href="#reglas" class="mnav-item" onclick="setActiveMobile(this)"><span class="mnav-icon">📏</span><span class="mnav-label">Reglas</span></a>
+    <a href="#metricas" class="mnav-item" onclick="setActiveMobile(this)"><span class="mnav-icon">📊</span><span class="mnav-label">Métricas</span></a>
+  </div>
+</nav>
+
+<script>
+function checkPwd(){
+  const v=document.getElementById('pwd-input').value;
+  const err=document.getElementById('pwd-error');
+  if(v==='SweetJenni2026'){
+    document.getElementById('password-screen').style.display='none';
+    document.getElementById('main-content').style.display='block';
+    populateScripts();
+  } else {
+    err.style.display='block';
+    document.getElementById('pwd-input').value='';
+    setTimeout(()=>err.style.display='none',3000);
+  }
+}
+
+window.addEventListener('scroll',()=>{
+  const el=document.getElementById('progress-bar');
+  const doc=document.documentElement;
+  const pct=(doc.scrollTop/(doc.scrollHeight-doc.clientHeight))*100;
+  el.style.width=pct+'%';
+});
+
+function setActive(el){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+function setActiveMobile(el){
+  document.querySelectorAll('.mnav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function setLang(l){
+  document.body.classList.remove('lang-en','lang-es');
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  if(l==='en'){document.body.classList.add('lang-en');document.getElementById('lb-en').classList.add('active');}
+  else if(l==='es'){document.body.classList.add('lang-es');document.getElementById('lb-es').classList.add('active');}
+  else{document.getElementById('lb-both').classList.add('active');}
+}
+
+function showBlock(id,btn){
+  document.querySelectorAll('.block-content').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.block-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function copyText(btn,text){
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.textContent;
+    btn.textContent='✅ Copiado';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},2000);
+  });
+}
+
+function makeScript(label,tag,en,es){
+  return `<div class="script-card">
+    <div class="script-header"><span class="script-label">${label}</span>${tag?`<span class="script-tag">${tag}</span>`:''}</div>
+    <div class="script-body">
+      <div class="lang-block lang-en"><div class="lang-flag">🇬🇧 EN</div><div class="script-text">${en}</div><button class="copy-btn" onclick="copyText(this,'${en.replace(/'/g,"\\'")}')">Copiar</button></div>
+      <div class="lang-block lang-es"><div class="lang-flag">🇦🇷 ES</div><div class="script-text">${es}</div><button class="copy-btn" onclick="copyText(this,'${es.replace(/'/g,"\\'")}')">Copiar</button></div>
+    </div>
+  </div>`;
+}
+
+function populateScripts(){
+  const b1=[
+    ['Wake Up #1','Hi honey 💕 barely awake and already thinking of you...','Hola honey 💕 recién despierto y ya pensando en vos...'],
+    ['Wake Up #2','Good morning 🥰 what a dream I had last night...','Buen día 🥰 qué sueño tuve anoche...'],
+    ['Wake Up #3','Are you up yet? I couldnt sleep thinking about yesterday 👀','¿Ya te levantaste? No pude dormir pensando en ayer 👀'],
+    ['Wake Up #4','Morning babe, today I woke up in a really good mood 😈','Buen día babe, hoy me desperté con muy buen humor 😈']
+  ];
+  let h1=''; b1.forEach(([l,en,es])=>h1+=makeScript(l,'TEXTO',en,es));
+  document.getElementById('b1-scripts').innerHTML=h1;
+
+  const b2=[
+    ['Context — foto SFW','I just got out of the shower, feeling so relaxed 🥰','Recién salgo de la ducha, me siento re relajada 🥰'],
+    ['Context — poll','What are you in the mood for today? A) Chill talk 💬 B) Something spicy 🔥','¿Con qué ganas estás hoy? A) Charla tranqui 💬 B) Algo picante 🔥'],
+    ['Context — charla','Hows your day going, honey? Tell me something good 💕','¿Cómo va tu día, honey? Contame algo bueno 💕'],
+    ['Context — teaser suave','I just recorded something that left me a little... worked up 👀','Recién grabé algo que me dejó un poco... prendida 👀']
+  ];
+  let h2=''; b2.forEach(([l,en,es])=>h2+=makeScript(l,'📸 CONTEXTO',en,es));
+  document.getElementById('b2-scripts').innerHTML=h2;
+
+  const b3=[
+    ['PPV — $9 primer escalón','I have something small but really hot for you tonight... just $9 🔒','Tengo algo chiquito pero re caliente para vos esta noche... solo $9 🔒'],
+    ['PPV — $15 con urgencia','This one Im taking down in 2 hours, I got way too into it while recording 🥵🔒','Este lo bajo en 2 horas, me prendí demasiado grabándolo 🥵🔒'],
+    ['PPV — $15 con curiosidad','You have no idea what I just filmed... want to find out? 👀🔒','No tenés idea de lo que acabo de grabar... ¿querés saber? 👀🔒'],
+    ['PPV — $25 personalizado','I made this thinking about our conversation earlier... its $25 and its just for you 🔒','Hice esto pensando en lo que hablamos antes... es $25 y es solo para vos 🔒']
+  ];
+  let h3=''; b3.forEach(([l,en,es])=>h3+=makeScript(l,'🔒 PPV',en,es));
+  document.getElementById('b3-scripts').innerHTML=h3;
+
+  const b4=[
+    ['Goodnight #1','Going to sleep now honey, sweet dreams 😘','Ya me voy a dormir honey, dulces sueños 😘'],
+    ['Goodnight #2','Before bed... tell me what youd want to do to me right now 😈','Antes de dormir... decime qué me harías ahora mismo 😈'],
+    ['Goodnight #3 — con oferta','Last thing before I sleep — recorded a little something you might like 💦🔒 $9','Última cosa antes de dormir — grabé algo que te puede gustar 💦🔒 $9']
+  ];
+  let h4=''; b4.forEach(([l,en,es])=>h4+=makeScript(l,'TEXTO',en,es));
+  document.getElementById('b4-scripts').innerHTML=h4;
+
+  let dr='';
+  dr+=makeScript('$9 — Primer escalón','',
+    'I have something small but really hot for you tonight... just $9 🔒',
+    'Tengo algo chiquito pero re caliente para vos esta noche... solo $9 🔒');
+  dr+=makeScript('$15 — Segundo escalón','Después de que compró el $9',
+    'You liked that huh? I have something a little more intense now... $15 🔒',
+    '¿Te gustó eh? Tengo algo un poco más intenso ahora... $15 🔒');
+  dr+=makeScript('$25 — Tercer escalón (x3)','',
+    'This is exclusive, I dont send it to everyone... $25 and its yours 🔒',
+    'Esto es exclusivo, no se lo mando a cualquiera... $25 y es tuyo 🔒');
+  dr+=makeScript('$40 — Cuarto escalón','',
+    'I made this thinking specifically about you honey, this ones $40 🔒',
+    'Hice esto pensando específicamente en vos honey, este es $40 🔒');
+  document.getElementById('drip-scripts').innerHTML=dr;
+
+  let gr='';
+  gr+=makeScript('Fan pide custom de $60 el primer día','',
+    'I love that energy babe 😈 but lets start slow first... unlock this and show me youre serious 🔒 [$9]',
+    'Me encanta esa energía babe 😈 pero empecemos despacio primero... desbloqueá esto y mostrame que hablás en serio 🔒 [$9]');
+  document.getElementById('golden-rule-scripts').innerHTML=gr;
+
+  let vip='';
+  vip+=makeScript('Oferta VIP — solo a comprador calificado','',
+    'I saw you loved that 👀 I have full uncensored content I dont post here... want the link to my VIP?',
+    'Vi que te encantó eso 👀 tengo contenido full sin censura que no subo acá... ¿querés el link de mi VIP?');
+  document.getElementById('vip-scripts').innerHTML=vip;
+
+  let rv='';
+  rv+=makeScript('Pedido de review — post vcall/custom','En DM privado',
+    'Hey, hope you loved it 💕 could you tell me in one sentence how it was for you? It really helps me',
+    'Hey, espero que te haya encantado 💕 ¿me contás en una frase cómo estuvo para vos? Me ayuda mucho');
+  document.getElementById('review-scripts').innerHTML=rv;
+}
+</script>
+
+</body>
+</html>
